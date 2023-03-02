@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const unitController = require('../controllers/unit');
 
-const privateSchoolAuth = require('../middelware/privateSchoolAuth');
+const privateSchoolAuth = require('../middelware/PrivateSchoolAuth');
 const teacherAuth = require('../middelware/TeacherAuth');
 
 router.post('/create', privateSchoolAuth ,unitController.createUnitByPrivateSchool);
