@@ -3,9 +3,11 @@ const router = express.Router();
 
 const privateSchoolControllers = require("../controllers/privateSchool");
 
+const adminAuth = require("../middelware/AdminAuth");
 const privateSchoolAuth = require("../middelware/PrivateSchoolAuth");
 
 router.post("/login", privateSchoolControllers.loginPrivateSchool);
+router.get("/all", adminAuth, privateSchoolControllers.getAllPrivateSchools);
 
 router.get("/students/all", privateSchoolAuth, privateSchoolControllers.getAllStudents);
 router.get("/forums/all", privateSchoolAuth, privateSchoolControllers.getAllForums);
