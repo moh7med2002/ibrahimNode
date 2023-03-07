@@ -11,8 +11,16 @@ const ForumStudent = require("../models/ForumStudent");
 
 module.exports.registerStudent = async (req, res, next) => {
   try {
-    const { name, email, password, gender, LevelId, ClassId, SectionId } =
-      req.body;
+    const {
+      name,
+      email,
+      password,
+      gender,
+      LevelId,
+      ClassId,
+      SectionId,
+      PrivateSchoolId,
+    } = req.body;
     const student = await Student.findOne({ where: { email: email } });
     if (student) {
       const error = new Error("الايميل مستخدم");
@@ -29,6 +37,7 @@ module.exports.registerStudent = async (req, res, next) => {
       gender: gender,
       money: 0,
       SectionId: SectionId || null,
+      PrivateSchoolId,
     });
     await newStudent.save();
     res.status(200).json({ message: "تم انشاء حساب الطالب" });
@@ -43,7 +52,7 @@ module.exports.registerStudent = async (req, res, next) => {
 exports.loginStudent = async (req, res, next) => {
   const { email, password: pass } = req.body;
   try {
-    const currentStudent = await Student.findOne({ where: { email: email }});
+    const currentStudent = await Student.findOne({ where: { email: email } });
     if (!currentStudent) {
       const error = new Error("الايميل غير موجود");
       error.statusCode = 422;
@@ -212,10 +221,9 @@ const clearImage = (filePath) => {
   });
 };
 
-
-module.exports.getAllowedForums = async (req,res,next) => {
+module.exports.getAllowedForums = async (req, res, next) => {
   const studentId = req.studentId;
-  try{
+  try {
     const currentStudent = await Student.findOne({ where: { id: studentId } });
     if (!currentStudent) {
       const error = new Error("يرجى تسجيل الدخول");
@@ -230,15 +238,14 @@ module.exports.getAllowedForums = async (req,res,next) => {
       },
       include: { all: true },
     });
-    res.status(200).json({forums});
-  }
-  catch (err) {
+    res.status(200).json({ forums });
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
     next(err);
   }
-}
+};
 
 module.exports.joinForum = async (req, res, next) => {
   const studentId = req.studentId;

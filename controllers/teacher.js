@@ -7,7 +7,7 @@ const Post = require("../models/Post");
 
 module.exports.registerTeacher = async (req, res, next) => {
   try {
-    const { name, email, password, gender, phone } = req.body;
+    const { name, email, password, gender, phone, PrivateSchoolId } = req.body;
     const teacher = await Teacher.findOne({ where: { email: email } });
     if (teacher) {
       const error = new Error("الإيميل مستخدم");
@@ -21,6 +21,7 @@ module.exports.registerTeacher = async (req, res, next) => {
       name: name,
       gender: gender,
       phone: phone,
+      PrivateSchoolId,
     });
     await newTeacher.save();
     res.status(200).json({ message: "تم انشاء حساب المعلم" });
@@ -106,27 +107,22 @@ module.exports.getTeacherForum = async (req, res, next) => {
   }
 };
 
-exports.getTeacher = async(req,res,next)=>
-{
-  try{
-    const {teacherId} = req.params
-    const teacher = await Teacher.findOne({where:{id:teacherId}})
-    res.status(200).json({teacher})
-  }
-  catch(err)
-  {
-    if(!err.statusCode)
-    {
-      err.statusCode = 500
+exports.getTeacher = async (req, res, next) => {
+  try {
+    const { teacherId } = req.params;
+    const teacher = await Teacher.findOne({ where: { id: teacherId } });
+    res.status(200).json({ teacher });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
-    next(err)
+    next(err);
   }
-}
+};
 
-exports.updateTeacherImage = async(req,res,next)=>
-{
-  const teacherId = req.teacherId
-  try{
+exports.updateTeacherImage = async (req, res, next) => {
+  const teacherId = req.teacherId;
+  try {
     if (!req.file) {
       const error = new Error("الصورة غير موجودة");
       error.statusCode = 401;
@@ -138,17 +134,14 @@ exports.updateTeacherImage = async(req,res,next)=>
     }
     teacher.image = req.file.filename;
     await teacher.save();
-    res.status(201).json({ message: "تم تعديل صورة بنجاح", teacher});
-  }
-  catch(err)
-  {
-    if(!err.statusCode)
-    {
-      err.statusCode = 500
+    res.status(201).json({ message: "تم تعديل صورة بنجاح", teacher });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
-    next(err)
+    next(err);
   }
-}
+};
 
 /** delete image from folder images */
 const clearImage = (filePath) => {

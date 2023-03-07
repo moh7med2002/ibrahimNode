@@ -71,14 +71,14 @@ StudentMembership.belongsTo(Student)
 
 
 // PrivateSchool
-PrivateSchool.hasMany(Student, { onDelete: "SET NULL" });
-PrivateSchool.hasMany(Teacher, { onDelete: "SET NULL" });
-PrivateSchool.hasMany(Subject, { onDelete: "SET NULL" });
-PrivateSchool.hasMany(Level, { onDelete: "SET NULL" });
-PrivateSchool.hasMany(Group, { onDelete: "SET NULL" });
-PrivateSchool.hasMany(Course, { onDelete: "SET NULL" });
-PrivateSchool.hasMany(Psycho, { onDelete: "SET NULL" });
-PrivateSchool.hasMany(Forum, { onDelete: "SET NULL" });
+Student.belongsTo(PrivateSchool);
+Teacher.belongsTo(PrivateSchool);
+Subject.belongsTo(PrivateSchool);
+Level.belongsTo(PrivateSchool);
+Group.belongsTo(PrivateSchool);
+Course.belongsTo(PrivateSchool);
+Psycho.belongsTo(PrivateSchool);
+Forum.belongsTo(PrivateSchool);
 
 //  parent
 Parent.hasMany(Student, { onDelete: "SET NULL" });

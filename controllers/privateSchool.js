@@ -43,7 +43,10 @@ exports.loginPrivateSchool = async (req, res, next) => {
 
 module.exports.getAllStudents = async (req, res, next) => {
   try {
-    const students = await Student.findAll({ include: { all: true } });
+    const students = await Student.findAll({
+      where: { PrivateSchoolId: req.privateSchoolId },
+      include: { all: true },
+    });
     res.status(200).json({ students });
   } catch (err) {
     if (!err.statusCode) {
@@ -55,7 +58,10 @@ module.exports.getAllStudents = async (req, res, next) => {
 
 module.exports.getAllForums = async (req, res, next) => {
   try {
-    const forums = await Forum.findAll({ include: { all: true } });
+    const forums = await Forum.findAll({
+      where: { PrivateSchoolId: req.privateSchoolId },
+      include: { all: true },
+    });
     res.status(200).json({ forums });
   } catch (err) {
     if (!err.statusCode) {
@@ -168,7 +174,7 @@ module.exports.updateStudentPassword = async (req, res, next) => {
 module.exports.getAllParentWaiting = async (req, res, next) => {
   try {
     const list = await ParentWaiting.findAll({
-      where: { status: 0 },
+      where: { PrivateSchoolId: req.privateSchoolId, status: 0 },
       include: { all: true },
     });
     res.status(200).json({ list });
@@ -183,7 +189,7 @@ module.exports.getAllParentWaiting = async (req, res, next) => {
 module.exports.getAllParentWaitingHistory = async (req, res, next) => {
   try {
     const list = await ParentWaiting.findAll({
-      where: { status: 1, status: 2 },
+      where: { status: 1, status: 2, PrivateSchoolId: req.privateSchoolId },
       include: { all: true },
     });
     res.status(200).json({ list });
@@ -247,7 +253,9 @@ module.exports.rejectParentRequest = async (req, res, next) => {
 
 module.exports.getAllPrivateSchools = async (req, res, next) => {
   try {
-    const privateSchools = await PrivateSchool.findAll({ include: { all: true } });
+    const privateSchools = await PrivateSchool.findAll({
+      include: { all: true },
+    });
     res.status(200).json({ privateSchools });
   } catch (err) {
     if (!err.statusCode) {

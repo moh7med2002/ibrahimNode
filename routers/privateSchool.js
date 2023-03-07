@@ -7,29 +7,23 @@ const adminAuth = require("../middelware/AdminAuth");
 const privateSchoolAuth = require("../middelware/PrivateSchoolAuth");
 
 router.post("/login", privateSchoolControllers.loginPrivateSchool);
-router.get("/all", adminAuth, privateSchoolControllers.getAllPrivateSchools);
+router.get("/all", privateSchoolControllers.getAllPrivateSchools);
 
 router.get("/students/all", privateSchoolAuth, privateSchoolControllers.getAllStudents);
 router.get("/forums/all", privateSchoolAuth, privateSchoolControllers.getAllForums);
 
 router.get(
   "/students/:studentId",
-  privateSchoolAuth,
   privateSchoolControllers.getStudent
 );
-router.get("/forums/:forumId", privateSchoolAuth, privateSchoolControllers.getForum);
-router.put(
-  "/student/password",
-  privateSchoolAuth,
-  privateSchoolControllers.updateStudentPassword
-);
+router.get("/forums/:forumId", privateSchoolControllers.getForum);
 
 router.put(
   "/student/info",
   privateSchoolAuth,
   privateSchoolControllers.updateStudentInfo
 );
-router.put("/forum/info", privateSchoolAuth, privateSchoolControllers.updateForumInfo);
+router.put("/forum/info",privateSchoolAuth, privateSchoolControllers.updateForumInfo);
 
 router.get(
   "/parent/request",

@@ -8,7 +8,6 @@ const postController = require("../controllers/post");
 
 const privateSchoolAuth = require("../middelware/PrivateSchoolAuth");
 const studentAuth = require("../middelware/StudentAuth");
-const teacherAuth = require("../middelware/TeacherAuth");
 
 router.post("/create", privateSchoolAuth, forumController.createForum);
 router.get('/all'  , privateSchoolControllers.getAllForums);
