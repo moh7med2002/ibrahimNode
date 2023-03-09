@@ -70,13 +70,10 @@ module.exports.registerPrivateSchool = async (req, res, next) => {
       name,
       password,
       course,
-      exam,
       forum,
       group,
       lesson,
       psycho,
-      subject,
-      unit,
     } = req.body;
     const privateSchool = await PrivateSchool.findOne({ where: { email } });
     if (privateSchool) {
@@ -90,13 +87,10 @@ module.exports.registerPrivateSchool = async (req, res, next) => {
       password: hashPass,
       name,
       course,
-      exam,
       forum,
       group,
       lesson,
       psycho,
-      subject,
-      unit,
     });
     await newPrivateSchool.save();
     res.status(200).json({ message: "تم انشاء حساب المدرسة الخاصة" });

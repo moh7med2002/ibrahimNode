@@ -7,6 +7,14 @@ const path = require("path");
 module.exports.createPsycho = async (req, res, next) => {
   try {
     const { title, price, TeacherId, duration, description } = req.body;
+    const privateSchool = await PrivateSchool.findOne({
+      where: { id: req.privateSchoolId },
+    });
+    if (!privateSchool.psycho) {
+      const error = new Error("غير متاح لك اجراء هذه العملية");
+      error.statusCode = 403;
+      throw new error();
+    }
     if (!req.file) {
       const error = new Error("الصورة غير موجودة");
       error.statusCode = 403;

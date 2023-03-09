@@ -3,6 +3,7 @@ const GroupLesson = require("../models/GroupLesson");
 const Subject = require("../models/Subject");
 const Student = require("../models/Student");
 const Teacher = require("../models/Teacher");
+const PrivateSchool = require("../models/PrivateSchool");
 
 module.exports.getGroupsForStudent = async (req, res, next) => {
   const studentId = req.studentId;
@@ -41,6 +42,14 @@ exports.createGroup = async (req, res, next) => {
       allowedStudents,
       description,
     } = req.body;
+    const privateSchool = await PrivateSchool.findOne({
+      where: { id: req.privateSchoolId },
+    });
+    if (!privateSchool.group) {
+      const error = new Error("غير متاح لك اجراء هذه العملية");
+      error.statusCode = 403;
+      throw new error();
+    }
     if (!req.file) {
       const error = new Error("الصورة غير موجودة");
       error.statusCode = 403;

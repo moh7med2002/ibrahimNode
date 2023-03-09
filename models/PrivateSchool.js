@@ -25,11 +25,6 @@ const PrivateSchool = Seqalize.define("PrivateSchool", {
     required: true,
     default: false,
   },
-  exam: {
-    type: DataTypes.BOOLEAN,
-    required: true,
-    default: false,
-  },
   forum: {
     type: DataTypes.BOOLEAN,
     required: true,
@@ -49,17 +44,7 @@ const PrivateSchool = Seqalize.define("PrivateSchool", {
     type: DataTypes.BOOLEAN,
     required: true,
     default: false,
-  },
-  subject: {
-    type: DataTypes.BOOLEAN,
-    required: true,
-    default: false,
-  },
-  unit: {
-    type: DataTypes.BOOLEAN,
-    required: true,
-    default: false,
-  },
+  }, 
 });
 
 module.exports = PrivateSchool;

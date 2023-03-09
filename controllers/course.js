@@ -7,10 +7,19 @@ const Question = require("../models/Question");
 const fs = require("fs");
 const path = require("path");
 const Student = require("../models/Student");
+const PrivateSchool = require("../models/PrivateSchool");
 
 exports.createCourseByPrivateSchool = async (req, res, next) => {
   try {
     const { title, price, TeacherId, SubjectId, goals } = req.body;
+    const privateSchool = await PrivateSchool.findOne({
+      where: { id: req.privateSchoolId },
+    });
+    if(!privateSchool.course){
+      const error = new Error("غير متاح لك اجراء هذه العملية");
+      error.statusCode = 403;
+      throw new error();
+    }
     if (!req.file) {
       const error = new Error("الصورة غير موجودة");
       error.statusCode = 403;

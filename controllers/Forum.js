@@ -1,4 +1,5 @@
 const Forum = require("../models/Forum");
+const PrivateSchool = require("../models/PrivateSchool");
 const Student = require("../models/Student");
 const Subject = require("../models/Subject");
 const Teacher = require("../models/Teacher");
@@ -7,7 +8,14 @@ exports.createForum = async (req, res, next) => {
   try {
     const imageName = req.file.filename;
     const { title, TeacherId, SubjectId } = req.body;
-    console.log(req.body);
+    const privateSchool = await PrivateSchool.findOne({
+      where: { id: req.privateSchoolId },
+    });
+    if (!privateSchool.forum) {
+      const error = new Error("غير متاح لك اجراء هذه العملية");
+      error.statusCode = 403;
+      throw new error();
+    }
     if (req.privateSchoolId) {
       const subject = await Subject.findOne({ where: { id: SubjectId } });
       if (!subject) {
